@@ -1,6 +1,5 @@
-from nba_api.stats.endpoints import playercareerstats
+import argparse
+from fetcher import get_player_career, career
+from datetime import datetime
 
-career = playercareerstats.PlayerCareerStats(player_id='203999')
-
-df = career.season_totals_regular_season.get_data_frame()
-print(df)
+print(career)
