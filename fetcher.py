@@ -5,15 +5,16 @@ from nba_api.live.nba.endpoints import scoreboard
 from datetime import datetime
 
 import pandas as pd
+
+
+def player_finder(rgx: str):
+    player_info = players.find_players_by_full_name(regex_pattern= rgx)
+    print(player_info[0]['id'])
+    print(player_info[0]['full_name'])
+    player_career_stats = playercareerstats.PlayerCareerStats(player_info[0]['id'])
+    return player_career_stats
+
 ply_input = input("Input Player's Full Name: ")
-player_info = players.find_players_by_full_name(regex_pattern= ply_input)
-print(player_info[0]['id'])
-print(player_info[0]['full_name'])
-
-player_career_stats = playercareerstats.PlayerCareerStats(player_info[0]['id'])
-print(player_career_stats.get_data_frames()[0])
-'''def age(player_id: int) -> int: 
-    player_info = commonplayerinfo.CommonPlayerInfo(player_id = player_id)
-    return player_info
-
-print(age(1630173).get_data_frames()[1])'''
+df = player_finder(ply_input).get_data_frames()[0]["PLAYER_AGE"]
+test = player_finder(ply_input).get_data_frames()[0]
+print(df.columns.tolist())
