@@ -1,6 +1,7 @@
 from nba_api.stats.endpoints import playercareerstats, commonplayerinfo
 from nba_api.stats.static import players
 from nba_api.live.nba.endpoints import scoreboard
+import sys
 
 from datetime import datetime
 
@@ -16,16 +17,19 @@ def player_finder(rgx: str):
     player_career_stats = playercareerstats.PlayerCareerStats(player_info[0]['id'])
 
     return player_career_stats
-
+    
 ply_input = input("Input Player's Full Name: ")
-df = player_finder(ply_input).get_data_frames()[0]
-test = player_finder(ply_input).get_data_frames()[0]
+try:
+    df = player_finder(ply_input).get_data_frames()[0]
+except IndexError:
+    print("Player has not played in the NBA")
+    sys.exit()
 
 df_rename = df.rename(columns={"PTS":"PPG"})
+print(df.columns)
+
 #vvvvvvvvvvv Test line vvvvvvvvvvv
-#print (df.columns)
+
 #print(df[["PLAYER_AGE", "PTS", "GP", "AST", "DREB"]]) # Columns shows the headers, to list sorts it nicer instead of index(headers) it just prints headers
 #print(df_rename.columns)
 
-
-print(bool([1, 2, 3] or 1/0))
